@@ -1,0 +1,15 @@
+body {
+  background-color: rgba(255,70,70,0.5);
+  @include flexCenter();
+  min-height: 100vh;
+}
+#app {
+  width: 60%;
+  height: 50vh;
+  background-color: $white;
+  border-radius: 5px;
+  padding: 7px;
+  p {
+    font-family: $roboto;
+  }
+}
