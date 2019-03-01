@@ -1,47 +1,33 @@
-let pow = function pow(value, stepValue ) {
-    if(stepValue !== 1) {
-        return value * pow(value, stepValue - 1);
-    } else {
-        return value;
-    }
-};
+function loadPhones() {
+    let xhr = new XMLHttpRequest();
 
-// First Decorator
-function showConsoleDecorator(func) {
-    return function () {
-        let result = func.apply(this, arguments);
-        console.log('Result function: ' + result);
-        return result;
-    }
-}
+    xhr.open('GET', 'js/phones.json', true);
+    xhr.send();
 
-// Call Counter Decarator
-function callCounterDecorator (func) {
-    let count = 0;
-    return function () {
-        count++;
-        console.log('Function summoned: ' + count);
-        return func.apply(this, arguments);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState !== 4) return;
+
+        if (xhr.status !== 200) {
+            alert('Error: ' + xhr.status + ': ' + xhr.statusText);
+        } else {
+            let phoneItems = JSON.parse(xhr.responseText);
+            let phoneNames = phoneItems.map(function (item) {
+                return item.name;
+            });
+            writeOnDocument(phoneNames);
+        }
     }
 }
 
-// Execution Time Function
-function executionTimeFunction(func) {
-    return function () {
-        let timeExecution = performance.now();
-        let result = func.apply(this, arguments);
-        timeExecution = performance.now() - timeExecution;
-        console.log('Execution Time: ' + timeExecution + ' ms.');
-        return result + console.log('///////////////////');
-    }
+loadPhones();
+
+function writeOnDocument(phoneNames) {
+    let blockApp = document.getElementById('app');
+    let createTagUl = document.createElement('ul');
+    blockApp.appendChild(createTagUl);
+    phoneNames.forEach(function (item) {
+        let newLi = document.createElement('li');
+        createTagUl.appendChild(newLi);
+        newLi.innerHTML = item;
+    });
 }
-
-
-pow = showConsoleDecorator(pow);
-pow = callCounterDecorator(pow);
-pow = executionTimeFunction(pow);
-
-pow(2,3);
-pow(5,40);
-pow(6,10);
-pow();

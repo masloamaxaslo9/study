@@ -9,7 +9,9 @@ body {
   background-color: $white;
   border-radius: 5px;
   padding: 7px;
-  p {
+  overflow: auto;
+  word-wrap: break-word;
+  li {
     font-family: $roboto;
   }
 }
