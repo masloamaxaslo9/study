@@ -1,33 +1,24 @@
-function loadPhones() {
-    let xhr = new XMLHttpRequest();
+document.getElementById('requireForm').addEventListener('click', function () {
+   let valueInputName = document.getElementById('name').value;
+   let valueInputSurname = document.getElementById('surname').value;
+   let valueInputPassword = document.getElementById('password').value;
+    submitFormGetRequire(valueInputName, valueInputSurname, valueInputPassword);
+});
 
-    xhr.open('GET', 'js/phones.json', true);
-    xhr.send();
+function submitFormGetRequire(name, surname, password) {
+    let xhr = new XMLHttpRequest();
+    let jsonFormatUserData = JSON.stringify({
+        name: Roman,
+        surname: Spuk,
+        password: 546
+    });
+
+    xhr.open('POST', 'index.html', true);
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
     xhr.onreadystatechange = function () {
-        if (xhr.readyState !== 4) return;
 
-        if (xhr.status !== 200) {
-            alert('Error: ' + xhr.status + ': ' + xhr.statusText);
-        } else {
-            let phoneItems = JSON.parse(xhr.responseText);
-            let phoneNames = phoneItems.map(function (item) {
-                return item.name;
-            });
-            writeOnDocument(phoneNames);
-        }
-    }
-}
+    };
 
-loadPhones();
-
-function writeOnDocument(phoneNames) {
-    let blockApp = document.getElementById('app');
-    let createTagUl = document.createElement('ul');
-    blockApp.appendChild(createTagUl);
-    phoneNames.forEach(function (item) {
-        let newLi = document.createElement('li');
-        createTagUl.appendChild(newLi);
-        newLi.innerHTML = item;
-    });
+    xhr.send(jsonFormatUserData);
 }
